@@ -9,7 +9,8 @@
     <br /><br />
     result: <span id="result">?</span>
     <br /><br />
-    <button onclick="add()">Add</button>
+    <button onclick="request('/add')">Add</button>
+    <button onclick="request('/multiply')">Multiply</button>
     <script type="text/javascript">
         function getNumbers() {
             return [
@@ -18,9 +19,9 @@
             ];
         }
 
-        async function add() {
+        async function request(url) {
             const [a, b] = getNumbers();
-            const initialResponse = await fetch(`/add`, {
+            const initialResponse = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

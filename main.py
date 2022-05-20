@@ -16,3 +16,12 @@ def add() -> Response:
     return jsonify(
         total=total,
     )
+
+
+@app.route('/multiply', methods=['POST'])
+def multiply() -> Response:
+    data = request.get_json()
+    total = data['a'] * data['b']
+    return jsonify(
+        total=total,
+    )
