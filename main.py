@@ -13,11 +13,10 @@ def index() -> str:
 
 def request_handler(func: callable) -> callable:
     def wrapper():
+        route_name = func.__name__
         data = request.get_json()
-        total = func(data.values())
-        return jsonify(
-            total=total,
-        )
+        result = func(data.values())
+        return jsonify(**{route_name: result})
     return wrapper
 
 

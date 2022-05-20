@@ -28,7 +28,7 @@
 
         async function request(url) {
             const [a, b, c] = getNumbers();
-            const initialResponse = await fetch(url, {
+            const initialResponse = await fetch(`/${url}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,20 +44,26 @@
         }
 
         async function minmax() {
-            const response = await request('/minmax');
-            const { min, max } = response.total;
+            const url = 'minmax';
+            const response = await request(url);
+            const { min, max } = response[url];
+
             document.getElementById('min').innerHTML = min;
             document.getElementById('max').innerHTML = max;
         }
 
         async function add() {
-            const response = await request('/add');
-            document.getElementById('result').innerText = response.total;
+            const url = 'add';
+            const response = await request(url);
+
+            document.getElementById('result').innerText = response[url];
         }
 
         async function multiply() {
-            const response = await request('/multiply');
-            document.getElementById('result').innerText = response.total;
+            const url = 'multiply';
+            const response = await request(url);
+
+            document.getElementById('result').innerText = response[url];
         }
     </script>
 </body>
