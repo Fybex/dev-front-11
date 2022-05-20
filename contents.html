@@ -7,6 +7,8 @@
     <br /><br />
     b: <input type="text" id="b"/>
     <br /><br />
+    c: <input type="text" id="c"/>
+    <br /><br />
     result: <span id="result">?</span>
     <br /><br />
     <button onclick="request('/add')">Add</button>
@@ -16,11 +18,12 @@
             return [
                 Number(document.getElementById('a').value),
                 Number(document.getElementById('b').value),
+                Number(document.getElementById('c').value),
             ];
         }
 
         async function request(url) {
-            const [a, b] = getNumbers();
+            const [a, b, c] = getNumbers();
             const initialResponse = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -29,6 +32,7 @@
                 body: JSON.stringify({
                     a: a,
                     b: b,
+                    c: c,
                 }),
             });
             const response = await initialResponse.json();

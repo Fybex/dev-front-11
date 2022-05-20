@@ -1,3 +1,5 @@
+from functools import reduce
+
 from flask import Flask, jsonify, request, Response
 
 app = Flask(__name__)
@@ -9,19 +11,25 @@ def index() -> str:
         return contents.read()
 
 
-@app.route('/add', methods=['POST'])
-def add() -> Response:
-    data = request.get_json()
-    total = data['a'] + data['b']
-    return jsonify(
-        total=total,
-    )
+def request_handler(func: callable) -> callable:
+    def wrapper():
+        data = request.get_json()
+        total = func(data)
+        return jsonify(
+            total=total,
+        )
+    return wrapper
 
 
-@app.route('/multiply', methods=['POST'])
-def multiply() -> Response:
-    data = request.get_json()
-    total = data['a'] * data['b']
-    return jsonify(
-        total=total,
-    )
+@app.route('/add', methods=['POST'], endpoint='add')
+@request_handler
+def add(data: list[int]) -> int:
+    return reduce(lambda x, y: x + y, data)
+
+
+@app.route('/multiply', methods=['POST'], endpoint='multiply')
+@request_handler
+def multiply(data: list[int]) -> int:
+    return reduce(lambda x, y: x * y, data)
+
+
