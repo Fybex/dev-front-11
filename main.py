@@ -16,7 +16,7 @@ def request_handler(func: callable) -> callable:
         route_name = func.__name__
         data = request.get_json()
         result = func(data.values())
-        return jsonify(**{route_name: result})
+        return jsonify({route_name: result})
     return wrapper
 
 
