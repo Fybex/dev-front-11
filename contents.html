@@ -3,16 +3,20 @@
     <title>Playing with numbers</title>
 </head>
 <body>
-    a: <input type="text" id="a"/>
+    a: <input type="text" id="a" onChange="minmax()"/>
     <br /><br />
-    b: <input type="text" id="b"/>
+    b: <input type="text" id="b" onChange="minmax()"/>
     <br /><br />
-    c: <input type="text" id="c"/>
+    c: <input type="text" id="c" onChange="minmax()"/>
     <br /><br />
     result: <span id="result">?</span>
     <br /><br />
-    <button onclick="request('/add')">Add</button>
-    <button onclick="request('/multiply')">Multiply</button>
+    min: <span id="min">?</span>
+    <br /><br />
+    max: <span id="max">?</span>
+    <br /><br />
+    <button onclick="add()">Add</button>
+    <button onclick="multiply()">Multiply</button>
     <script type="text/javascript">
         function getNumbers() {
             return [
@@ -36,6 +40,23 @@
                 }),
             });
             const response = await initialResponse.json();
+            return response;
+        }
+
+        async function minmax() {
+            const response = await request('/minmax');
+            const { min, max } = response.total;
+            document.getElementById('min').innerHTML = min;
+            document.getElementById('max').innerHTML = max;
+        }
+
+        async function add() {
+            const response = await request('/add');
+            document.getElementById('result').innerText = response.total;
+        }
+
+        async function multiply() {
+            const response = await request('/multiply');
             document.getElementById('result').innerText = response.total;
         }
     </script>
